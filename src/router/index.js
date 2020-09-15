@@ -24,6 +24,11 @@ Vue.use(VueRouter)
     name: 'caseList',
     component: () => import('@/views/case/caseList.vue'),
   },
+  {
+    path: '/about/aboutUs',
+    name: 'aboutUs',
+    component: () => import('@/views/about/aboutUs.vue'),
+  },
 
 ]
 

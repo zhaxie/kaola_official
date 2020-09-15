@@ -5,6 +5,7 @@ const selfGlobalComponents = {
         Vue.component('breadNav', require('@/components/common/breadNav.vue').default);
         Vue.component('headerNav', require('@/components/common/headerNav.vue').default);
         Vue.component('footerNav', require('@/components/common/footerNav.vue').default);
+        Vue.component('comBtn', require('@/components/common/comBtn.vue').default);
     }
 }
 

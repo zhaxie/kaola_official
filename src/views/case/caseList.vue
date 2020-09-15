@@ -21,23 +21,8 @@
     <div class="col" style="background-color:#fff">
       <div class="container">
 
-        <!-- 内容列表 -->
-        <div class="d-flex flex-wrap content-list">
-          <div class="col-4" v-for="(item, index) in 5" :key="index">
-            <div class="content-item">
-              <div class="position-relative img-box">
-                <imgWithLoading
-                  class="position-absolute imgCover"
-                  :src="require('@/assets/img/test-1.png')"
-                ></imgWithLoading>
-              </div>
-              <div class="px-30">
-                <div class="mt-20 mb-10 text-over-two title">华侨大数据</div>
-                <div class="mb-20 category">使用产品：企业官网</div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- 组件：案例列表 -->
+        <caseItemList style="margin-top: 4rem;"></caseItemList>
 
         <!-- 组件：分页器 -->
         <listPagination class="pagination-modules" align="justify-content-end"></listPagination>
@@ -51,11 +36,13 @@
 
 <script>
 import hotNewsList from "@/components/hotNewsList.vue";
+import caseItemList from "@/components/caseItemList.vue";
 import listPagination from "@/components/common/listPagination.vue";
 
 export default {
   components: {
     hotNewsList,
+    caseItemList,
     listPagination,
   },
   data() {
@@ -100,35 +87,6 @@ export default {
         border: 0.5rem solid transparent;
         border-bottom: 0.5rem solid #fff;
       }
-    }
-  }
-}
-
-// 内容列表
-.content-list {
-  margin-top: 4rem;
-  margin-right: -3.38rem;
-
-  .content-item {
-    margin-right: 3.38rem;
-    margin-bottom: 3.38rem;
-    border-radius: 0.94rem;
-    border: solid 1px #dee0e4;
-    overflow: hidden;
-
-    .img-box {
-      padding-bottom: 68%;
-    }
-
-    .title {
-      font-size: 1rem;
-      color: #333333;
-    }
-
-    .category {
-      font-size: 0.88rem;
-      color: #000000;
-      opacity: 0.6;
     }
   }
 }
