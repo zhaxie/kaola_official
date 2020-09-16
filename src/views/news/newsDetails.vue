@@ -46,7 +46,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .news-content {
   margin: 0 auto 3rem !important;
   flex-basis: 0;

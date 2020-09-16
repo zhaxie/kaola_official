@@ -155,7 +155,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 // 顶部
 .top-modules {
   background-color: #3079ec;
