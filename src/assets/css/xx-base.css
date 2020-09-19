@@ -1174,6 +1174,10 @@ html {
 }
 
 
+.overflow-hidden{
+  overflow: hidden;
+}
+
 .text-left{
   text-align: left;
 }

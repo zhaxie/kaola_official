@@ -23,16 +23,101 @@
       <!-- 模块：简介--2 -->
       <div class="introduce-text-modules">
         <div class="container d-flex align-items-center">
-          <div class="col">
+          <div class="col-7">
             <div class="main-title">简介</div>
             <div
               class="text-content"
             >广东澳新考拉信息技术有限公司，致力于为企业提供一站式互联网开发服务，包括网站建设、微信开发、APP应用、营销推广、人工智能、系统集成、底层开发等技术解决方案。目前我们已服务包括机械、医药、政府、建筑、IT 、纺织、娱乐、物流、房产、汽车等十几个行业，近百个细分行业1000+企业客户，从客户项目的需求分析，到立项计划制定，再到功能开发与交付，产品测试与专业售后服务等，致力于为客户提供专业的互联网技术指导与服务。</div>
           </div>
-          <div class="col-3">
+          <div class="col-3 ml-auto">
             <div class="position-relative pb-100 attitude-list">
               <div class="position-absolute w-100 h-100">
-                <div class="position-relative attitude-item">专业</div>
+                <div class="d-flex flex-column h-100">
+                  <div class="col">
+                    <div class="d-flex h-100">
+                      <div class="col"></div>
+                      <div class="col">
+                        <div class="attitude-item-box">
+                          <div
+                            class="position-relative pb-100 attitude-item"
+                            style="transform: scale(1.3);"
+                          >
+                            <div class="position-absolute center-text">专业</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col"></div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="d-flex h-100">
+                      <div class="col">
+                        <div class="attitude-item-box">
+                          <div
+                            class="position-relative pb-100 attitude-item"
+                            style="transform: scale(0.8);"
+                          >
+                            <div class="position-absolute center-text">专业</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="attitude-item-box">
+                          <div
+                            class="position-relative pb-100 attitude-item"
+                            style="transform: scale(0.5) translate3d(10%, 0, 0)"
+                          >
+                            <div class="position-absolute center-text">专业</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="attitude-item-box">
+                          <div
+                            class="position-relative pb-100 attitude-item"
+                            style="transform: scale(0.9) translate3d(0, -20%, 0);"
+                          >
+                            <div class="position-absolute center-text">专业</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="d-flex h-100">
+                      <div class="col">
+                        <div class="attitude-item-box">
+                          <div
+                            class="position-relative pb-100 attitude-item"
+                            style="transform: scale(0.5);"
+                          >
+                            <div class="position-absolute center-text">专业</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="attitude-item-box">
+                          <div
+                            class="position-relative pb-100 attitude-item"
+                            style="transform: scale(0.6) translate3d(-40%, -40%, 0);"
+                          >
+                            <div class="position-absolute center-text">专业</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col"></div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="d-flex flex-wrap h-100">
+                  <div class="col-12">
+                    <div class="ma-auto attitude-item-box">
+                      <div class="position-relative pb-100 attitude-item">
+                        <div class="position-absolute center-text">专业</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>-->
               </div>
             </div>
           </div>
@@ -42,46 +127,10 @@
       <!-- 模块：资质荣誉 -->
       <div class="mb-40 honner-modules">
         <div class="container">
-          <div class="main-title">简介</div>
+          <div class="main-title">资质荣誉</div>
           <div class="position-relative honner-list">
             <div class="position-absolute w-100 h-100">
               <swiper class="h-100" ref="mySwiper" :options="swiperOptions">
-                <swiper-slide>
-                  <imgWithLoading
-                    class="position-absolute imgCover"
-                    :src="require('@/assets/img/test-1.png')"
-                  />
-                </swiper-slide>
-                <swiper-slide>
-                  <imgWithLoading
-                    class="position-absolute imgCover"
-                    :src="require('@/assets/img/test-1.png')"
-                  />
-                </swiper-slide>
-                <swiper-slide>
-                  <imgWithLoading
-                    class="position-absolute imgCover"
-                    :src="require('@/assets/img/test-1.png')"
-                  />
-                </swiper-slide>
-                <swiper-slide>
-                  <imgWithLoading
-                    class="position-absolute imgCover"
-                    :src="require('@/assets/img/test-1.png')"
-                  />
-                </swiper-slide>
-                <swiper-slide>
-                  <imgWithLoading
-                    class="position-absolute imgCover"
-                    :src="require('@/assets/img/test-1.png')"
-                  />
-                </swiper-slide>
-                <swiper-slide>
-                  <imgWithLoading
-                    class="position-absolute imgCover"
-                    :src="require('@/assets/img/test-1.png')"
-                  />
-                </swiper-slide>
                 <swiper-slide>
                   <imgWithLoading
                     class="position-absolute imgCover"
@@ -133,8 +182,8 @@
 
 <script>
 import hotNewsList from "@/components/hotNewsList.vue";
-
 import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
+
 // import "swiper/css/swiper.css";
 // If you use Swiper 6.0.0 or higher
 import "swiper/swiper-bundle.css";
@@ -176,7 +225,6 @@ export default {
           el: ".swiper-pagination",
         },
         autoplay: true,
-        // Some Swiper option/callback...
       },
     };
   },
@@ -210,14 +258,40 @@ export default {
 // 模块：简介--2
 .introduce-text-modules {
   background-color: #fafcff;
+  padding-top: 4.5rem;
+  padding-bottom: 1.5rem;
 
   .text-content {
+    margin-top: 1.5rem;
     font-size: 1rem;
     color: #606060;
   }
 
   .attitude-list {
-    border: 1px solid red;
+    .attitude-item-box {
+      transition: all 0.4s;
+
+      &:hover {
+        transform: scale(1.3);
+      }
+
+      .attitude-item {
+        background-color: #3079ec;
+        border-radius: 50%;
+        box-shadow: none;
+        color: #fff;
+
+        &:hover {
+          box-shadow: 0.09rem 1.25rem 3.13rem 0rem rgba(48, 121, 236, 0.2);
+        }
+
+        .center-text {
+          left: 50%;
+          top: 50%;
+          transform: translate3d(-50%, -50%, 0);
+        }
+      }
+    }
   }
 }
 

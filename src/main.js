@@ -11,6 +11,7 @@ import selfGlobalComponents from '@/assets/js/selfGlobalComponents.js';
 
 import '@/assets/css/xx-base.css';
 import '@/assets/css/animate.css';
+import '@/assets/css/iconfont.css';
 
 
 Vue.prototype.$bus = new CommonBus();         //bus工具

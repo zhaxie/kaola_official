@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-  const routes = [
+const routes = [
   {
     path: '/',
     name: 'Home',
@@ -25,11 +25,20 @@ Vue.use(VueRouter)
     component: () => import('@/views/case/caseList.vue'),
   },
   {
+    path: '/case/caseDetails',
+    name: 'caseDetails',
+    component: () => import('@/views/case/caseDetails.vue'),
+  },
+  {
     path: '/about/aboutUs',
     name: 'aboutUs',
     component: () => import('@/views/about/aboutUs.vue'),
   },
-
+  {
+    path: '/other/contactUs',
+    name: 'contactUs',
+    component: () => import('@/views/other/contactUs.vue'),
+  },
 ]
 
 const router = new VueRouter({

@@ -17,23 +17,24 @@
           <!-- 组件：通用按钮 -->
           <comBtn class="mt-30">查看更多></comBtn>
         </div>
+        <div class="right-box"></div>
       </div>
     </div>
     <div class="col">
       <div class="container">
         <!-- 模块：业务范围 -->
         <div class="d-flex align-items-center justify-content-center what-we-do-modules">
-          <div class="col-3 do-item" v-for="(item, index) in 4" :key="index">
+          <div class="col-3 do-item" v-for="(item, index) in businessList" :key="index">
             <div class="position-relative pb-100 do-inner-box">
               <div class="position-absolute w-100 h-100">
                 <div class="d-flex flex-column align-items-center justify-content-center h-100">
-                  <div class="iconfont"></div>
-                  <div class="icon-text">系统开发</div>
+                  <div class="mb-15 iconfont" :class="item.iconfont"></div>
+                  <div class="icon-text">{{item.title}}</div>
                 </div>
               </div>
               <div class="position-absolute w-100 h-100 active-box">
-                <div class="my-10 title">网站建设</div>
-                <div class="sub-title">针对品牌提供定制化网站建设解决方案，全面展示企业及产品全貌，助力企业迅速占领各平台。</div>
+                <div class="my-10 title">{{item.title}}</div>
+                <div class="sub-title">{{item.hoverText}}</div>
               </div>
             </div>
           </div>
@@ -42,11 +43,10 @@
         <!-- 模块：关于澳新考拉 -->
         <div class="mb-40 aboutUs-modules">
           <div class="big-title">关于澳新考拉</div>
-          <div class="about-container">
+          <div class="overflow-hidden about-container">
             <div class="d-flex flex-wrap justify-content-center about-list">
               <div
-                class="col-6"
-                :class="{hideUnderline: index === 0 || index === 1}"
+                class="col-6 about-item"
                 v-for="(item, index) in aboutUsList"
                 :key="index"
               >
@@ -61,16 +61,20 @@
                   </div>
                   <div class="icon-box">
                     <div class="position-relative pb-100">
-                      <div class="position-absolute imgCover"></div>
+                      <div class="position-absolute imgCover d-flex">
+                        <div class="ma-auto iconfont" :class="item.iconfont"></div>
+                      </div>
                     </div>
                   </div>
                 </div>
-                
+
                 <!-- 右边 -->
                 <div class="d-flex align-items-start loaction-right" v-else>
                   <div class="icon-box">
                     <div class="position-relative pb-100">
-                      <div class="position-absolute imgCover"></div>
+                      <div class="position-absolute imgCover d-flex">
+                        <div class="ma-auto iconfont" :class="item.iconfont"></div>
+                      </div>
                     </div>
                   </div>
                   <div class="position-relative text-box">
@@ -124,30 +128,50 @@ export default {
   },
   data() {
     return {
+      businessList: [
+        {
+          iconfont: "icon-internet",
+          title: "网站建设",
+          hoverText:
+            "针对品牌提供定制化网站建设解决方案，全面展示企业及产品全貌，助力企业迅速占领各平台。",
+        },
+        {
+          iconfont: "icon-setting",
+          title: "系统开发",
+        },
+        {
+          iconfont: "icon-small-app",
+          title: "小程序开发",
+        },
+        {
+          iconfont: "icon-develop",
+          title: "软件开发",
+        },
+      ],
       aboutUsList: [
         {
+          iconfont: "",
           title: "个性化服务",
           subTitle:
             "我们专注于与客户进行有效的沟通，基于客户需求，量身定制更适合企业信息化管理的产品。",
-          iconfont: "",
         },
         {
+          iconfont: "icon-design",
           title: "创新设计思维",
           subTitle:
             "从客户角度出发，探索发现客户隐藏需求，快速反应，打造客户未知的渴望的产品。",
-          iconfont: "",
         },
         {
+          iconfont: "icon-code",
           title: "强大技术实力",
           subTitle:
             "掌握各种主流程序语言开发技术，支撑和全方位维护渠道让客户安枕无忧。",
-          iconfont: "",
         },
         {
+          iconfont: "icon-computed-online",
           title: "超大云服务器",
           subTitle:
             "灵活高效、适用各类应用场景的弹性可扩容云服务器，为客户提供一个安全稳定、高效高性能的一站式互联网基础服务平台。",
-          iconfont: "",
         },
       ],
     };
@@ -195,6 +219,15 @@ export default {
       box-shadow: 0.09rem 1.25rem 3.13rem 0rem rgba(63, 142, 247, 0.2);
       border-radius: 0.63rem;
 
+      .iconfont {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 0.63rem;
+        background-color: #5688fe;
+        font-size: 1.8rem;
+        color: #fff;
+      }
+
       .icon-text {
         font-size: 1.13rem;
         color: #112961;
@@ -232,57 +265,73 @@ export default {
     margin: 0 5%;
   }
   .about-list {
-    .text-box {
-      width: 40%;
-      padding: 2.8rem 0;
+    margin-top: -1px;
+    
+    .about-item {
+      .text-box {
+        width: 40%;
+        padding: 2.8rem 0;
 
-      &::before {
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-        content: "";
-        display: block;
-        height: 1px;
-        background-color: #cccccc;
+        &::before {
+          position: absolute;
+          left: 0;
+          top: 0;
+          right: 0;
+          content: "";
+          display: block;
+          height: 1px;
+          background-color: #cccccc;
+        }
+
+        .title {
+          font-size: 1.13rem;
+          color: #112961;
+        }
+
+        .text {
+          line-height: 1.8;
+          font-size: 0.88rem;
+          color: #6f7b8b;
+        }
       }
 
-      .title {
-        font-size: 1.13rem;
-        color: #112961;
+      .icon-box {
+        width: 20%;
+        margin: 3rem;
+        background-color: #ffffff;
+        box-shadow: 0.09rem 1.25rem 3.13rem 0rem rgba(63, 142, 247, 0.2);
+        border-radius: 50%;
+        transition: all 0.8s;
+
+        .iconfont {
+          font-size: 3rem;
+          color: #3f8ef7;
+          transition: all 0.8s;
+        }
       }
 
-      .text {
-        line-height: 1.8;
-        font-size: 0.88rem;
-        color: #6f7b8b;
+      .loaction-left {
+        text-align: right;
+
+        .text-box::before {
+          left: -20%;
+        }
       }
-    }
 
-    //隐藏下划线
-    .hideUnderline .text-box::before {
-      display: none !important;
-    }
-
-    .icon-box {
-      width: 20%;
-      margin: 3rem;
-      background-color: #ffffff;
-      box-shadow: 0.09rem 1.25rem 3.13rem 0rem rgba(63, 142, 247, 0.2);
-      border-radius: 50%;
-    }
-
-    .loaction-left {
-      text-align: right;
-
-      .text-box::before {
-        left: -20%;
+      .loaction-right {
+        .text-box::before {
+          right: -20%;
+        }
       }
-    }
 
-    .loaction-right {
-      .text-box::before {
-        right: -20%;
+      &:hover {
+        .icon-box {
+          background-color: #3f8ef7;
+
+          .iconfont {
+            color: #fff;
+          }
+        }
       }
     }
   }
