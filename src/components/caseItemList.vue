@@ -1,16 +1,25 @@
 <template>
   <div class="d-flex flex-wrap content-list">
-    <div class="col-4" v-for="(item, index) in 5" :key="index">
-      <div class="content-item">
+    <div class="col-4" v-for="(item, index) in dataList" :key="index">
+      <div
+        class="content-item cursor-pointer"
+        @click="
+          $router.push({
+            name: 'caseDetails',
+            query: { id: item.id, parentRouterInfo },
+          })
+        "
+      >
         <div class="position-relative img-box">
           <imgWithLoading
             class="position-absolute imgCover"
-            :src="require('@/assets/img/test-1.png')"
+            :withHostUrl="true"
+            :src="item.cover"
           ></imgWithLoading>
         </div>
         <div class="px-30">
-          <div class="mt-20 mb-10 text-over-two title">华侨大数据</div>
-          <div class="mb-20 category">使用产品：企业官网</div>
+          <div class="mt-20 mb-10 text-over-two title">{{ item.name }}</div>
+          <div class="mb-20 category">使用产品：{{ item.classify_name }}</div>
         </div>
       </div>
     </div>
@@ -18,7 +27,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    dataList: {
+      type: Array,
+    },
+    parentRouterInfo: {
+      type: Object,
+      defalut: {},
+    },
+  },
+
+};
 </script>
 
 <style lang="scss" scoped>

@@ -3,7 +3,7 @@ const ajax = (Vue) => {
   const ajax = require('@/assets/js/ajax.js').default;
 
   Vue.prototype.$ajax = ajax;
-  Vue.prototype.$imgBaseUrl = 'https://www.ldbbeer.com/';
+  Vue.prototype.$imgBaseUrl = 'http://192.168.80.238:8888';
 }
 
 const globalMethodsObj = {
@@ -16,26 +16,26 @@ const globalMethodsObj = {
         message: options.msg,
         type: options.color || 'success'
       });
-     };
+    };
   },
 
-  //loading动画
-  loading(Vue, mountEle) {
-    const Loading = Vue.extend(require('@/components_global/loading.vue').default);
-    let instance_loading = new Loading();
+  // //loading动画
+  // loading(Vue, mountEle) {
+  //   const Loading = Vue.extend(require('@/components_global/loading.vue').default);
+  //   let instance_loading = new Loading();
 
-    instance_loading.$mount(document.createElement('div'));
-    mountEle.appendChild(instance_loading.$el);
+  //   instance_loading.$mount(document.createElement('div'));
+  //   mountEle.appendChild(instance_loading.$el);
 
-    Vue.prototype.$showLoading = (options) => { instance_loading.showLoading(options) };
-    Vue.prototype.$hideLoading = (options) => { instance_loading.hideLoading(options) };
-  },
+  //   Vue.prototype.$showLoading = (options) => { instance_loading.showLoading(options) };
+  //   Vue.prototype.$hideLoading = (options) => { instance_loading.hideLoading(options) };
+  // },
 
   //确认框
   resureDialog(Vue, mountEle) {
 
     Vue.prototype.$resureDialog = async (options) => {
-      try { 
+      try {
         await Vue.prototype.$confirm(options.title || '是否确定操作', "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
@@ -47,45 +47,6 @@ const globalMethodsObj = {
         options.cancel && options.cancel();
       }
     }
-  },
-
-  //是不是移动端
-  isMobile(Vue) {
-    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|webOS|Windows Phone|SymbianOS|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    Vue.prototype.$isMobile = isMobile;
-
-    return isMobile;
-  },
-
-  //时间戳转化为日期
-
-  formatDate(Vue) {
-    const formatDate = (now) => {
-      var dateObj = {
-        year: now.getFullYear(),
-        month: now.getMonth() + 1,
-        date: now.getDate(),
-        hour: now.getHours(),
-        minute: now.getMinutes(),
-      }
-
-      for (var key in dateObj) {
-        const item = dateObj[key].toString();
-
-        console.info('item', item);
-
-        if (item.length === 1) {
-          dateObj[key] = '0' + item;
-
-          console.info('tag', dateObj[key])
-        }
-      }
-
-      const { year, month, date, hour, minute } = dateObj;
-
-      return year + "-" + month + "-" + date + " " + hour + ":" + minute;
-    }
-    Vue.prototype.$formatDate = formatDate;
   },
 
   //频繁点击限制
@@ -115,6 +76,19 @@ const globalMethodsObj = {
     }
 
     Vue.prototype.$checkTapTooFaster = checkTapTooFaster;
+  },
+
+  catchError(Vue) {
+    const catchError = (error) => {
+      console.error('出错了：', error);
+      console.error('出错了：', new Error());
+
+      Vue.prototype.$toast({
+        msg: error,
+      });
+    }
+
+    Vue.prototype.$catchError = catchError;
   }
 }
 

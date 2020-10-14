@@ -8,8 +8,6 @@ const transformHeader = async function (header) {
     let headerObj = {
         "Content-Type": "application/x-www-form-urlencoded",
         "Authorization": _localStorage.getItem("token") || "",
-        "gridsid": _localStorage.getItem("currentGridID") || "",
-
     }
 
     header && (headerObj = Object.assign(headerObj, header));
@@ -55,12 +53,11 @@ export default function (options) {
 
             // console.info('请求的参数: ', options);
 
-            this.$showLoading();
+            // this.$showLoading();
 
             //请求发送
             const ajaxRet = await axios({
-                url: 'http://grids-api.0752app.cn:8888' + api,
-                // url: 'http://grids.ti71.com' + api,
+                url: 'http://192.168.80.238:8888' + api,
                 method: ajaxType || 'post',
                 headers: await transformHeader(header),
                 transformRequest: !isUploadFile ? [transformRequest] : [],
@@ -90,7 +87,7 @@ export default function (options) {
                         return false;
                     }
 
-                    resolve(responseAll ? requestRet : requestRet.res);
+                    resolve(requestRet);
 
                     break;
                 case 500:
@@ -104,7 +101,7 @@ export default function (options) {
             reject(error);
             console.error('出错详情：', error);
         } finally {
-            this.$hideLoading();
+            // this.$hideLoading();
         }
     })
 }

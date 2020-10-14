@@ -1,13 +1,38 @@
 <template>
   <div class="d-flex align-items-center bread-nav-modules">
-    <div>面包导航</div>
-    <div class="mx-10">|</div>
-    <div>企业新闻</div>
+    <div
+      class="d-flex align-items-center"
+      v-for="(item, index) in breadNavList"
+      :key="index"
+    >
+      <div class="mx-10" v-if="index !== 0">|</div>
+      <div
+        :class="{ 'cursor-pointer': index !== breadNavList.length - 1 }"
+        @click="handleRouterThisBread(item)"
+      >
+        {{ item.title }}
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    breadNavList: {
+      type: Array,
+    },
+  },
+  methods: {
+    handleRouterThisBread(thisBreadObj) {
+      const { routerName } = thisBreadObj;
+
+      if (routerName) {
+        this.$router.replace({ name: routerName });
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

@@ -13,12 +13,19 @@
         <div class="col-8 left-box">
           <div class="d-flex h-100">
             <div class="col px-40">
-              <div class="title">网站定制开发流程</div>
+              <div class="title">{{ newsDetailsObj.name }}</div>
               <div class="d-flex sub-title">
-                <div class="col-6">发布时间：2020-04-07 10:58:11</div>
-                <div class="col-6">来源：汕头日报全媒体</div>
+                <div class="col-6">
+                  发布时间：{{
+                    $com.formatDate(
+                      new Date(newsDetailsObj.create_time * 1000),
+                      "yyyy-MM-dd hh:mm"
+                    )
+                  }}
+                </div>
+                <div class="col-6">来源：{{ newsDetailsObj.source }}</div>
               </div>
-              <div class="content">内容</div>
+              <div class="content" v-html="newsDetailsObj.details"></div>
             </div>
           </div>
         </div>
@@ -26,7 +33,10 @@
         <!-- 盒子：右边 -->
         <div class="col-4">
           <!-- 组件：热门新闻 -->
-          <hotNewsList class="right-box"></hotNewsList>
+          <hotNewsList
+            class="right-box"
+            :scanNewsByPushPage="false"
+          ></hotNewsList>
         </div>
       </div>
     </div>
@@ -42,6 +52,41 @@ import hotNewsList from "@/components/hotNewsList.vue";
 export default {
   components: {
     hotNewsList,
+  },
+  data() {
+    return {
+      newsDetailsObj: {},
+    };
+  },
+  mounted() {
+    this.getAndSetNewsDetails();
+  },
+  watch: {
+    "$route.query"(newValue) {
+      this.getAndSetNewsDetails();
+    },
+  },
+  methods: {
+    async getAndSetNewsDetails() {
+      try {
+        const { id } = this.$route.query;
+
+        if (!id) {
+          throw "id有误";
+        }
+
+        const { res } = await this.$ajax({
+          apiKey: "newsListDetails",
+          data: {
+            id, //id	是	int	新闻id
+          },
+        });
+
+        this.newsDetailsObj = res;
+      } catch (error) {
+        this.$catchError(error);
+      }
+    },
   },
 };
 </script>

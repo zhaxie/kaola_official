@@ -5,7 +5,9 @@
 
     <!-- 主内容区域 -->
     <div class="position-relative col d-flex overflow-hidden">
-      <div class="position-relative container d-flex align-items-center contactUs-modules">
+      <div
+        class="position-relative container d-flex align-items-center contactUs-modules"
+      >
         <!-- 左边的背景图 -->
         <div class="col-5 animated fadeIn">
           <div class="left-bg animated slideInLeft">
@@ -21,23 +23,28 @@
         <!-- 内容文字 -->
         <div class="col-6 ml-auto info-box">
           <div class="animated bounceIn delay-1s cursor-pointer info-content">
-            <div class="title">广东澳新考拉信息技术有限公司</div>
+            <div class="title">{{ contactUsObj.name }}</div>
             <div class="content">
               <div class="d-flex align-items-end">
                 <div class="col">
-                  <div class="text">全国统一服务热线：0754-87263166</div>
+                  <div class="text">
+                    全国统一服务热线：{{ contactUsObj.number }}
+                  </div>
                   <div class="d-flex align-items-center text">
-                    <span>微信咨询：wgj8987</span>
+                    <span>微信咨询：{{ contactUsObj.wechat_num }}</span>
                     <div class="iconfont"></div>
                   </div>
-                  <div class="text">地址：中国广东省汕头市龙湖区科技东路8号</div>
-                  <div class="text">领域大厦818-820室</div>
+                  <!-- <div class="text">
+                   
+                  </div> -->
+                  <div class="text">{{ contactUsObj.address }}</div>
                 </div>
                 <div class="col-3 px-5 pt-5 ml-auto qr-code">
-                  <div class="position-relative pb-100 code-img">
+                  <div class="position-relative pb-100 code-img" v-if="contactUsObj.wechat_pic">
                     <imgWithLoading
                       class="position-absolute imgCover"
-                      :src="require('@/assets/img/contactUs_qrCode.png')"
+                      :withHostUrl="true"
+                      :src="contactUsObj.wechat_pic"
                     ></imgWithLoading>
                   </div>
                   <div class="py-5 text-center qr-text">扫码加微信咨询</div>
@@ -49,7 +56,7 @@
 
         <!-- 右边的背景 -->
         <div class="position-absolute animated slideInRight right-box">
-          <div class="bg" :class="{active: onLoaded}"></div>
+          <div class="bg" :class="{ active: onLoaded }"></div>
         </div>
       </div>
     </div>
@@ -65,10 +72,25 @@ export default {
   data() {
     return {
       onLoaded: false,
+      contactUsObj: {},
     };
   },
   mounted() {
     this.onLoaded = true;
+    this.getAndSetContactUs();
+  },
+  methods: {
+    async getAndSetContactUs() {
+      try {
+        const { res } = await this.$ajax({
+          apiKey: "contactUs",
+        });
+
+        this.contactUsObj = res;
+      } catch (error) {
+        this.$catchError(error);
+      }
+    },
   },
 };
 </script>

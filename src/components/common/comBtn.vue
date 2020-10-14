@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div class="d-inline-block cursor-pointer look-more-btn" :style="{backgroundColor: color, color: textColor}">
+    <div
+      class="d-inline-block cursor-pointer look-more-btn"
+      :style="{ backgroundColor: color, color: textColor }"
+      @click="$emit('click')"
+    >
       <slot></slot>
     </div>
   </div>

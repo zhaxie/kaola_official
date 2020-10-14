@@ -1,9 +1,27 @@
 <template>
   <div class="pagination-modules">
-    <div class="d-flex text-center" :class="{[align]: align}">
-      <div class="last-or-next cursor-pointer btn"><</div>
-      <div class="cursor-pointer px-10 btn active">111</div>
-      <div class="last-or-next cursor-pointer btn">></div>
+    <div class="d-flex text-center" :class="{ [align]: align }">
+      <div
+        class="last-or-next cursor-pointer btn"
+        @click="handleChangeCurrentSize(1, currentPage - 1)"
+      >
+        <
+      </div>
+      <div
+        class="cursor-pointer px-10 btn"
+        v-for="(item, index) in lastPage"
+        :key="index"
+        :class="{ active: item === currentPage }"
+        @click="$emit('sizeChange', item)"
+      >
+        {{ item }}
+      </div>
+      <div
+        class="last-or-next cursor-pointer btn"
+        @click="handleChangeCurrentSize(2, currentPage + 1)"
+      >
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -13,7 +31,39 @@ export default {
   props: {
     align: {
       type: String,
-      default: 'justify-content-center'
+      default: "justify-content-center",
+    },
+    currentPage: {
+      type: Number,
+    },
+    lastPage: {
+      type: Number,
+    },
+  },
+  methods: {
+    handleChangeCurrentSize(btnType, currentPage) {
+      try {
+        console.info('currentPage', currentPage);
+
+        switch (
+          btnType //1：上一页 2：下一页
+        ) {
+          case 1:
+            if (currentPage === 0) {
+              throw '这是第一页';
+            }
+            break;
+          case 2:
+            if (currentPage === this.lastPage + 1) {
+              throw '这是最后一页';
+            }
+            break;
+        }
+
+        this.$emit("sizeChange", currentPage);
+      } catch (error) {
+        console.error('error', error);
+      }
     },
   },
 };

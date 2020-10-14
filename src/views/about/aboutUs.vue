@@ -10,12 +10,18 @@
       <!-- 模块：简介--1 -->
       <div class="container">
         <div class="d-flex align-items-center introduce-list-modules">
-          <div class="col introduce-item" v-for="(item, index) in introduceList" :key="index">
+          <div
+            class="col introduce-item"
+            v-for="(item, index) in introduceList"
+            :key="index"
+          >
             <div class="d-flex align-items-baseline">
-              <span class="big-title">{{item.title}}</span>
-              <span class="title-state" v-if="item.state !== undefined">{{item.state}}</span>
+              <span class="big-title">{{ item.title }}</span>
+              <span class="title-state" v-if="item.state !== undefined">{{
+                item.state
+              }}</span>
             </div>
-            <div class="sub-title">{{item.status}}</div>
+            <div class="sub-title">{{ item.status }}</div>
           </div>
         </div>
       </div>
@@ -25,9 +31,9 @@
         <div class="container d-flex align-items-center">
           <div class="col-7">
             <div class="main-title">简介</div>
-            <div
-              class="text-content"
-            >广东澳新考拉信息技术有限公司，致力于为企业提供一站式互联网开发服务，包括网站建设、微信开发、APP应用、营销推广、人工智能、系统集成、底层开发等技术解决方案。目前我们已服务包括机械、医药、政府、建筑、IT 、纺织、娱乐、物流、房产、汽车等十几个行业，近百个细分行业1000+企业客户，从客户项目的需求分析，到立项计划制定，再到功能开发与交付，产品测试与专业售后服务等，致力于为客户提供专业的互联网技术指导与服务。</div>
+            <div class="text-content">
+              {{ aboutUsObj.introduceInfo }}
+            </div>
           </div>
           <div class="col-3 ml-auto">
             <div class="position-relative pb-100 attitude-list">
@@ -37,12 +43,14 @@
                     <div class="d-flex h-100">
                       <div class="col"></div>
                       <div class="col">
-                        <div class="attitude-item-box">
+                        <div class="attitude-item-box" v-if="expertiseList[0]">
                           <div
                             class="position-relative pb-100 attitude-item"
-                            style="transform: scale(1.3);"
+                            style="transform: scale(1.3)"
                           >
-                            <div class="position-absolute center-text">专业</div>
+                            <div class="position-absolute center-text">
+                              {{ expertiseList[0].name }}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -52,32 +60,40 @@
                   <div class="col">
                     <div class="d-flex h-100">
                       <div class="col">
-                        <div class="attitude-item-box">
+                        <div class="attitude-item-box" v-if="expertiseList[1]">
                           <div
                             class="position-relative pb-100 attitude-item"
-                            style="transform: scale(0.8);"
+                            style="transform: scale(0.8)"
                           >
-                            <div class="position-absolute center-text">专业</div>
+                            <div class="position-absolute center-text">
+                              {{ expertiseList[1].name }}
+                            </div>
                           </div>
                         </div>
                       </div>
                       <div class="col">
-                        <div class="attitude-item-box">
+                        <div class="attitude-item-box" v-if="expertiseList[2]">
                           <div
                             class="position-relative pb-100 attitude-item"
                             style="transform: scale(0.5) translate3d(10%, 0, 0)"
                           >
-                            <div class="position-absolute center-text">专业</div>
+                            <div class="position-absolute center-text">
+                              {{ expertiseList[2].name }}
+                            </div>
                           </div>
                         </div>
                       </div>
                       <div class="col">
-                        <div class="attitude-item-box">
+                        <div class="attitude-item-box" v-if="expertiseList[3]">
                           <div
                             class="position-relative pb-100 attitude-item"
-                            style="transform: scale(0.9) translate3d(0, -20%, 0);"
+                            style="
+                              transform: scale(0.9) translate3d(0, -20%, 0);
+                            "
                           >
-                            <div class="position-absolute center-text">专业</div>
+                            <div class="position-absolute center-text">
+                              {{ expertiseList[3].name }}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -86,22 +102,28 @@
                   <div class="col">
                     <div class="d-flex h-100">
                       <div class="col">
-                        <div class="attitude-item-box">
+                        <div class="attitude-item-box" v-if="expertiseList[4]">
                           <div
                             class="position-relative pb-100 attitude-item"
-                            style="transform: scale(0.5);"
+                            style="transform: scale(0.5)"
                           >
-                            <div class="position-absolute center-text">专业</div>
+                            <div class="position-absolute center-text">
+                              {{ expertiseList[4].name }}
+                            </div>
                           </div>
                         </div>
                       </div>
                       <div class="col">
-                        <div class="attitude-item-box">
+                        <div class="attitude-item-box" v-if="expertiseList[5]">
                           <div
                             class="position-relative pb-100 attitude-item"
-                            style="transform: scale(0.6) translate3d(-40%, -40%, 0);"
+                            style="
+                              transform: scale(0.6) translate3d(-40%, -40%, 0);
+                            "
                           >
-                            <div class="position-absolute center-text">专业</div>
+                            <div class="position-absolute center-text">
+                              {{ expertiseList[5].name }}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -131,40 +153,14 @@
           <div class="position-relative honner-list">
             <div class="position-absolute w-100 h-100">
               <swiper class="h-100" ref="mySwiper" :options="swiperOptions">
-                <swiper-slide>
+                <swiper-slide
+                  v-for="(item, index) in aboutUsObj.honnerImgList"
+                  :key="index"
+                >
                   <imgWithLoading
                     class="position-absolute imgCover"
-                    :src="require('@/assets/img/test-1.png')"
-                  />
-                </swiper-slide>
-                <swiper-slide>
-                  <imgWithLoading
-                    class="position-absolute imgCover"
-                    :src="require('@/assets/img/test-1.png')"
-                  />
-                </swiper-slide>
-                <swiper-slide>
-                  <imgWithLoading
-                    class="position-absolute imgCover"
-                    :src="require('@/assets/img/test-1.png')"
-                  />
-                </swiper-slide>
-                <swiper-slide>
-                  <imgWithLoading
-                    class="position-absolute imgCover"
-                    :src="require('@/assets/img/test-1.png')"
-                  />
-                </swiper-slide>
-                <swiper-slide>
-                  <imgWithLoading
-                    class="position-absolute imgCover"
-                    :src="require('@/assets/img/test-1.png')"
-                  />
-                </swiper-slide>
-                <swiper-slide>
-                  <imgWithLoading
-                    class="position-absolute imgCover"
-                    :src="require('@/assets/img/test-1.png')"
+                    :withHostUrl="true"
+                    :src="item.pic"
                   />
                 </swiper-slide>
                 <div class="swiper-pagination" slot="pagination"></div>
@@ -226,7 +222,57 @@ export default {
         },
         autoplay: true,
       },
+
+      aboutUsObj: {
+        honnerImgList: [],
+      },
+      expertiseList: [],
     };
+  },
+  mounted() {
+    this.getAndSetAboutUsInfo(); //简介
+    this.getAndSetExpertiseList(); //专业特点
+    this.getAndSetHonnerImgList(); //荣誉资质
+  },
+  methods: {
+    //获取关于我们的简介
+    async getAndSetAboutUsInfo() {
+      try {
+        const { res } = await this.$ajax({
+          apiKey: "aboutUsInfo",
+        });
+
+        this.aboutUsObj.introduceInfo = res;
+      } catch (error) {
+        this.$catchError(error);
+      }
+    },
+
+    //获取专业特点列表
+    async getAndSetExpertiseList() {
+      try {
+        const { res } = await this.$ajax({
+          apiKey: "getExpertiseList",
+        });
+
+        this.expertiseList = res;
+      } catch (error) {
+        this.$catchError(error);
+      }
+    },
+
+    //获取荣誉资质
+    async getAndSetHonnerImgList() {
+      try {
+        const { res } = await this.$ajax({
+          apiKey: "getHonnerImgList",
+        });
+
+        this.aboutUsObj.honnerImgList = res;
+      } catch (error) {
+        this.$catchError(error);
+      }
+    },
   },
 };
 </script>
@@ -302,7 +348,6 @@ export default {
     margin-bottom: 2.5rem;
   }
   .honner-list {
-    border: 1px solid red;
     padding-bottom: 30%;
   }
 }

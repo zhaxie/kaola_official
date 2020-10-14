@@ -15,26 +15,43 @@
             </div>
           </div>
           <!-- 组件：通用按钮 -->
-          <comBtn class="mt-30">查看更多></comBtn>
+          <comBtn class="mt-30" @click="$router.push({ name: 'caseList' })"
+            >查看更多></comBtn
+          >
         </div>
-        <div class="right-box"></div>
+        <div class="col-6 ml-auto right-box">
+          <div class="d-flex align-items-center">
+            <div class="ver-text small-text opactiy-0">垂直文本</div>
+            <div class="ver-text middle-text opactiy-1">垂直文本</div>
+            <div class="ver-text big-text opactiy-2">垂直文本</div>
+            <div class="ver-text ">垂直文本</div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="col">
       <div class="container">
         <!-- 模块：业务范围 -->
-        <div class="d-flex align-items-center justify-content-center what-we-do-modules">
-          <div class="col-3 do-item" v-for="(item, index) in businessList" :key="index">
+        <div
+          class="d-flex align-items-center justify-content-center what-we-do-modules"
+        >
+          <div
+            class="col-3 do-item"
+            v-for="(item, index) in businessList"
+            :key="index"
+          >
             <div class="position-relative pb-100 do-inner-box">
               <div class="position-absolute w-100 h-100">
-                <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                <div
+                  class="d-flex flex-column align-items-center justify-content-center h-100"
+                >
                   <div class="mb-15 iconfont" :class="item.iconfont"></div>
-                  <div class="icon-text">{{item.title}}</div>
+                  <div class="icon-text">{{ item.title }}</div>
                 </div>
               </div>
               <div class="position-absolute w-100 h-100 active-box">
-                <div class="my-10 title">{{item.title}}</div>
-                <div class="sub-title">{{item.hoverText}}</div>
+                <div class="my-10 title">{{ item.title }}</div>
+                <div class="sub-title">{{ item.hoverText }}</div>
               </div>
             </div>
           </div>
@@ -56,13 +73,16 @@
                   v-if="index % 2 === 0"
                 >
                   <div class="position-relative text-box">
-                    <div class="mb-20 title">{{item.title}}</div>
-                    <div class="text">{{item.subTitle}}</div>
+                    <div class="mb-20 title">{{ item.title }}</div>
+                    <div class="text">{{ item.subTitle }}</div>
                   </div>
                   <div class="icon-box">
                     <div class="position-relative pb-100">
                       <div class="position-absolute imgCover d-flex">
-                        <div class="ma-auto iconfont" :class="item.iconfont"></div>
+                        <div
+                          class="ma-auto iconfont"
+                          :class="item.iconfont"
+                        ></div>
                       </div>
                     </div>
                   </div>
@@ -73,13 +93,16 @@
                   <div class="icon-box">
                     <div class="position-relative pb-100">
                       <div class="position-absolute imgCover d-flex">
-                        <div class="ma-auto iconfont" :class="item.iconfont"></div>
+                        <div
+                          class="ma-auto iconfont"
+                          :class="item.iconfont"
+                        ></div>
                       </div>
                     </div>
                   </div>
                   <div class="position-relative text-box">
-                    <div class="mb-20 title">{{item.title}}</div>
-                    <div class="text">{{item.subTitle}}</div>
+                    <div class="mb-20 title">{{ item.title }}</div>
+                    <div class="text">{{ item.subTitle }}</div>
                   </div>
                 </div>
               </div>
@@ -92,20 +115,49 @@
           <div class="d-flex align-items-center">
             <div class="big-title">案例</div>
             <div class="col">
-              <div class="d-flex align-items-center justify-content-end category-list">
-                <div class="px-30 category-item active">全部</div>
-                <div class="px-30 category-item">全部</div>
-                <div class="px-30 category-item">全部</div>
+              <div
+                class="d-flex align-items-center justify-content-end category-list"
+              >
+                <div
+                  class="px-30 category-item cursor-pointer"
+                  v-for="(item, index) in navList"
+                  :key="index"
+                  :class="{ active: index === currentSelectedNavIndex }"
+                  @click="handleSwitchCaseList(item.id, index)"
+                >
+                  {{ item.name }}
+                </div>
               </div>
             </div>
           </div>
 
           <!-- 组件：案例列表 -->
-          <caseItemList style="margin-top: 4.5rem;"></caseItemList>
+          <caseItemList
+            style="margin-top: 4.5rem"
+            :dataList="dataListObj.data"
+            :parentRouterInfo="{
+              title: '首页',
+              routerName: 'home',
+            }"
+          ></caseItemList>
 
           <!-- 组件：通用按钮 -->
-          <div class="d-flex justify-content-center">
-            <comBtn class="pb-20 mb-50" color="#3f8ef7" textColor="#fff">查看更多></comBtn>
+          <div
+            class="d-flex justify-content-center"
+            v-if="dataListObj.last_page > 1"
+          >
+            <comBtn
+              class="pb-20 mb-50"
+              color="#3f8ef7"
+              textColor="#fff"
+              @click="
+                $router.push({
+                  name: 'caseList',
+                  query: { categoryIndex: currentSelectedNavIndex },
+                })
+              "
+              >查看更多></comBtn
+            >
           </div>
         </div>
       </div>
@@ -138,19 +190,25 @@ export default {
         {
           iconfont: "icon-setting",
           title: "系统开发",
+          hoverText:
+            "为企业、电商打造B2B2C多用户商城系统，微商管理系统，全方位解决企业引流、推广难题。",
         },
         {
           iconfont: "icon-small-app",
           title: "小程序开发",
+          hoverText:
+            "专注于商城、点餐、O2O、预约、名片通讯录、平台小程序定制开发，助力企业搭建小程序新渠道。",
         },
         {
           iconfont: "icon-develop",
           title: "软件开发",
+          hoverText:
+            "开发出符合企业需求的产品，完善定制应用软件界面、交互体验等解决方案，助力企业信息化升级转型。",
         },
       ],
       aboutUsList: [
         {
-          iconfont: "",
+          iconfont: "icon-quKuaiLian",
           title: "个性化服务",
           subTitle:
             "我们专注于与客户进行有效的沟通，基于客户需求，量身定制更适合企业信息化管理的产品。",
@@ -174,7 +232,99 @@ export default {
             "灵活高效、适用各类应用场景的弹性可扩容云服务器，为客户提供一个安全稳定、高效高性能的一站式互联网基础服务平台。",
         },
       ],
+      navList: [], //案例分类
+      currentSelectedNavIndex: 0,
+      dataListObj: {
+        current_page: 1,
+        last_page: 1,
+      },
+      bannerList: [{
+        name: '案例1',
+      },{
+        name: '案例2',
+      },{
+        name: '案例3',
+      },{
+        name: '案例4',
+      },{
+        name: '案例5',
+      },
+      ]
     };
+  },
+  mounted() {
+    this.getAndSetCaseListByID("all"); //获取全部案例
+    this.getAndSetNavList(); //设置导航
+  },
+  methods: {
+    //分类导航
+    async getAndSetNavList() {
+      try {
+        const { res } = await this.$ajax({
+          apiKey: "caseNavList",
+          data: {
+            paginate: 20,
+          },
+        });
+
+        res.data.unshift({
+          name: "全部",
+          id: "all",
+        });
+
+        this.navList = res.data;
+      } catch (error) {
+        this.$catchError(error);
+      }
+    },
+
+    //分类列表
+    async getAndSetCaseListByID(caseCategoryID) {
+      try {
+        if (
+          caseCategoryID === this.lastGetCaseListID &&
+          caseCategoryID !== "all"
+        ) {
+          return false;
+        }
+
+        let toSubmitOptions = {
+          page: this.dataListObj.current_page, //当前页码
+          paginate: 6, //paginate	否	int	当前显示条数，默认20
+          classify_id: caseCategoryID, //classify_id	否	int	案例分类ID, 不传返回全部
+        };
+
+        this.lastGetCaseListID = caseCategoryID; //存储当前请求的分类id;
+
+        if (caseCategoryID === "all") {
+          delete toSubmitOptions.classify_id;
+        }
+
+        const { res } = await this.$ajax({
+          apiKey: "caseList",
+          data: toSubmitOptions,
+        });
+
+        if (caseCategoryID !== this.lastGetCaseListID) {
+          console.info("请求回来时，分类已切换", "");
+          return false;
+        }
+
+        this.dataListObj = res;
+
+        console.info("res", res);
+      } catch (error) {
+        this.lastGetCaseListID = null;
+        this.$catchError(error);
+      }
+    },
+
+    //切换分类列表
+    handleSwitchCaseList(caseCategoryID, thisNavIndex) {
+      this.currentSelectedNavIndex = thisNavIndex;
+
+      this.getAndSetCaseListByID(caseCategoryID);
+    },
   },
 };
 </script>
@@ -200,6 +350,26 @@ export default {
       .plus-icon {
         font-size: 1.59rem;
         color: #ffffff;
+      }
+    }
+  }
+
+  .right-box {
+    .ver-text {
+      -webkit-writing-mode: vertical-rl;
+      writing-mode: vertical-rl;
+      color: #fff;
+
+      &.small-text{
+        font-size: 1rem;
+      }
+
+      &.middle-text{
+        font-size: 1.2rem;
+      }
+
+      &.big-text{
+        font-size: 1.8rem;
       }
     }
   }
@@ -266,7 +436,7 @@ export default {
   }
   .about-list {
     margin-top: -1px;
-    
+
     .about-item {
       .text-box {
         width: 40%;

@@ -6,24 +6,35 @@
       <div class="container d-flex align-items-center">
         <div class="col d-flex align-items-center">
           <div class="logo">
-            <imgWithLoading class="imgCover" :src="require('@/assets/icon/com_logo.png')"></imgWithLoading>
+            <imgWithLoading
+              class="imgCover"
+              :src="require('@/assets/icon/com_logo.png')"
+            ></imgWithLoading>
           </div>
           <div class="name">澳新考拉</div>
         </div>
         <div class="d-flex align-items-center second-nav-list">
           <div
-            class="cursor-pointer nav-item"
-            v-for="(item) in secondNavList"
+            class="position-relative cursor-pointer nav-item"
+            v-for="(item, index) in secondNavList"
             :key="item.title"
-          >{{item.title}}</div>
+            :class="{ active: index === currentSelectNavIndex }"
+            @click="$router.push({ name: item.pathName })"
+          >
+            {{ item.title }}
+          </div>
         </div>
       </div>
     </div>
     <!-- 高度占位符 -->
-    <div :style="{height: firstNavHeight + 'px'}"></div>
+    <div :style="{ height: firstNavHeight + 'px' }"></div>
 
     <!-- 页面标题 -->
-    <div class="animated slideInDown" style="background-color: #3079ec;" v-if="$slots.pageTitle">
+    <div
+      class="animated slideInDown"
+      style="background-color: #3079ec"
+      v-if="$slots.pageTitle"
+    >
       <div class="container">
         <div class="page-title">
           <slot name="pageTitle"></slot>
@@ -39,29 +50,47 @@ export default {
     return {
       secondNavList: [
         {
-          title: "首页1",
+          title: "首页",
+          pathName: "home",
         },
         {
-          title: "首页2",
+          title: "关于我们",
+          pathName: "aboutUs",
         },
         {
-          title: "首页3",
+          title: "业务案例",
+          pathName: "caseList",
         },
         {
-          title: "首页4",
+          title: "企业新闻",
+          pathName: "newsList",
         },
         {
-          title: "首页5",
+          title: "联系我们",
+          pathName: "contactUs",
         },
       ],
       firstNavHeight: 0,
     };
   },
-  mounted () {
+  mounted() {
     const firstNavHeight = this.$refs.firstNav.getBoundingClientRect().height;
 
     this.firstNavHeight = firstNavHeight;
-    this.$emit('firstNavHeight', firstNavHeight);
+    this.$emit("firstNavHeight", firstNavHeight);
+  },
+  computed: {
+    currentSelectNavIndex() {
+      const { name: currentRouterName } = this.$route;
+      const currentSelectNavIndex = this.secondNavList.findIndex(
+        (item) => currentRouterName === item.pathName
+      );
+
+      console.info('this.$route', this.$route);
+      console.info('currentSelectNavIndex', currentSelectNavIndex);
+
+      return currentSelectNavIndex;
+    },
   },
 };
 </script>
@@ -91,6 +120,20 @@ export default {
         line-height: 4rem;
         font-size: 1rem;
         color: #edf4ff;
+
+        &.active::after {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          margin: auto;
+          content: "";
+          display: block;
+          width: 0;
+          height: 0;
+          border: 6px solid transparent;
+          border-bottom-color: #ffe03f !important;
+        }
       }
     }
   }

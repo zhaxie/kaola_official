@@ -4,7 +4,7 @@
     <headerNav></headerNav>
 
     <!-- 面包屑导航 -->
-    <breadNav class="container"></breadNav>
+    <breadNav class="container" :breadNavList="breadNavList"></breadNav>
 
     <!-- 主内容区域 -->
     <div class="col">
@@ -13,28 +13,36 @@
         <div class="d-flex">
           <div class="col-7 left-box">
             <div class="d-flex align-items-baseline">
-              <div class="my-15 title">广东澳新考拉信息技术有限公司</div>
-              <a class="ml-10 sub-title" href="www.ozkoalas.com">(www.ozkoalas.com)</a>
+              <div class="my-15 title">{{ caseDetailsObj.name }}</div>
+              <a class="ml-10 sub-title" target="_blank" :href="caseDetailsObj.link"
+                >({{caseDetailsObj.link}})</a
+              >
             </div>
-            <div
-              class="text"
-            >澳新考拉于2015年成立,为国家高新技术企业,拥有实力雄厚的产品研发团队。作为互联网创新模式与技术服务解决方案提供商,致力于为企业提供一站式互联网开发服务,包括网</div>
+            <div class="text">
+              澳新考拉于2015年成立,为国家高新技术企业,拥有实力雄厚的产品研发团队。作为互联网创新模式与技术服务解决方案提供商,致力于为企业提供一站式互联网开发服务,包括网
+            </div>
           </div>
           <div class="col right-box">
             <div class="title">主要服务</div>
             <div class="d-flex flex-wrap align-items-center server-list">
-              <div class="px-20 server-item">网站设计</div>
-              <div class="px-20 server-item">网站设计</div>
-              <div class="px-20 server-item">网站设计</div>
+              <div
+                class="px-20 server-item"
+                v-for="(item, index) in caseDetailsObj.serviceList"
+                :key="index"
+              >
+                {{ item }}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 模块：色彩搭配 -->
-      <div class="container color-modules">
+      <!-- 模块：色彩搭配 暂时注释掉，没啥卵用 -->
+      <!-- <div class="container color-modules">
         <div class="position-relative mx-auto title-box">色彩搭配</div>
-        <div class="d-flex align-items-center justify-content-center color-list">
+        <div
+          class="d-flex align-items-center justify-content-center color-list"
+        >
           <div class="col-1 mx-20">
             <div class="color-item"></div>
           </div>
@@ -45,12 +53,11 @@
             <div class="color-item"></div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- 模块：详细介绍 -->
-      <div class="container details-info-modules">
-        <img :src="require('@/assets/img/test-2.jpg')" />
-        <img :src="require('@/assets/img/test-1.png')" />
+      <div class="container mt-40 details-info-modules">
+        <div v-html="caseDetailsObj.details"></div>
       </div>
     </div>
 
@@ -65,6 +72,62 @@ import hotNewsList from "@/components/hotNewsList.vue";
 export default {
   components: {
     hotNewsList,
+  },
+  data() {
+    return {
+      caseDetailsObj: {},
+    };
+  },
+  mounted() {
+    this.getAndSetCaseDetails();
+
+    let str = "1;2;3;";
+
+    console.info("str", str.split(""));
+  },
+  methods: {
+    async getAndSetCaseDetails() {
+      try {
+        const { id } = this.$route.query;
+
+        if (!id) {
+          throw "id有误";
+        }
+
+        const { res } = await this.$ajax({
+          apiKey: "caseDetails",
+          data: {
+            id, //id	是	int	案例id
+          },
+        });
+
+        let service = res.service;
+
+        res.serviceList = service.split(";").filter((item) => item !== ";");
+
+        this.caseDetailsObj = res;
+      } catch (error) {
+        this.$catchError(error);
+      }
+    },
+  },
+  computed: {
+    breadNavList() {
+      const { parentRouterInfo } = this.$route.query;
+      const { name: currentPageName } = this.caseDetailsObj || {};
+
+      let breadNavList = [];
+
+      parentRouterInfo && breadNavList.push(parentRouterInfo);
+      currentPageName &&
+        breadNavList.push({
+          title: currentPageName,
+        });
+
+      console.info("breadNavList", breadNavList);
+
+      return breadNavList;
+    },
   },
 };
 </script>

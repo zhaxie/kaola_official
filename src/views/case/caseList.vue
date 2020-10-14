@@ -8,24 +8,42 @@
     <!-- 二级导航 -->
     <div
       class="position-sticky z100 animated slideInleft second-nav-modules"
-      :style="{top: secondNavTop + 'px'}"
+      :style="{ top: secondNavTop + 'px' }"
     >
       <div class="container d-flex align-items-center">
-        <div class="nav-item active">全部</div>
-        <div class="nav-item">全部</div>
-        <div class="nav-item">全部</div>
+        <div
+          class="cursor-pointer nav-item"
+          v-for="(item, index) in navList"
+          :key="index"
+          :class="{ active: index === currentSelectedNavIndex }"
+          @click="handleSwitchCaseList(item.id, index)"
+        >
+          {{ item.name }}
+        </div>
       </div>
     </div>
 
     <!-- 主内容区域 -->
-    <div class="col" style="background-color:#fff">
+    <div class="col" style="background-color: #fff">
       <div class="container">
-
         <!-- 组件：案例列表 -->
-        <caseItemList style="margin-top: 4rem;"></caseItemList>
+        <caseItemList
+          style="margin-top: 4rem"
+          :dataList="dataListObj.data"
+          :parentRouterInfo="{
+            title: '案例列表',
+            routerName: 'caseList',
+          }"
+        ></caseItemList>
 
         <!-- 组件：分页器 -->
-        <listPagination class="pagination-modules" align="justify-content-end"></listPagination>
+        <listPagination
+          class="pagination-modules"
+          align="justify-content-end"
+          @sizeChange="handlePageSizeChange"
+          :currentPage="Number(dataListObj.current_page)"
+          :lastPage="Number(dataListObj.last_page)"
+        ></listPagination>
       </div>
     </div>
 
@@ -48,9 +66,99 @@ export default {
   data() {
     return {
       secondNavTop: 0,
+      navList: [], //案例分类
+      currentSelectedNavIndex: 0,
+      dataListObj: {
+        current_page: 1,
+        last_page: 1,
+      },
     };
   },
-  mounted() {},
+  mounted() {
+    const {categoryIndex} = this.$route.query;
+
+    categoryIndex && (this.currentSelectedNavIndex = categoryIndex);
+
+    this.getAndSetNavList(); //设置导航
+    this.getAndSetCaseListByID("all"); //获取全部案例
+  },
+  methods: {
+    //分类导航
+    async getAndSetNavList() {
+      try {
+        const { res } = await this.$ajax({
+          apiKey: "caseNavList",
+          data: {
+            paginate: 20,
+          },
+        });
+
+        res.data.unshift({
+          name: "全部",
+          id: "all",
+        });
+
+        this.navList = res.data;
+      } catch (error) {
+        this.$catchError(error);
+      }
+    },
+
+    //分类列表
+    async getAndSetCaseListByID(caseCategoryID) {
+      try {
+        if (
+          caseCategoryID === this.lastGetCaseListID &&
+          caseCategoryID !== "all"
+        ) {
+          return false;
+        }
+
+        let toSubmitOptions = {
+          page: this.dataListObj.current_page, //当前页码
+          paginate: 20, //paginate	否	int	当前显示条数，默认20
+          classify_id: caseCategoryID, //classify_id	否	int	案例分类ID, 不传返回全部
+        };
+
+        this.lastGetCaseListID = caseCategoryID; //存储当前请求的分类id;
+
+        if (caseCategoryID === "all") {
+          delete toSubmitOptions.classify_id;
+        }
+
+        const { res } = await this.$ajax({
+          apiKey: "caseList",
+          data: toSubmitOptions,
+        });
+
+        if (caseCategoryID !== this.lastGetCaseListID) {
+          console.info("请求回来时，分类已切换", "");
+          return false;
+        }
+
+        this.dataListObj = res;
+
+        console.info("res", res);
+      } catch (error) {
+        this.lastGetCaseListID = null;
+        this.$catchError(error);
+      }
+    },
+
+    //切换分类列表
+    handleSwitchCaseList(caseCategoryID, thisNavIndex) {
+      this.currentSelectedNavIndex = thisNavIndex;
+
+      this.getAndSetCaseListByID(caseCategoryID);
+    },
+
+    //切换页码
+    handlePageSizeChange(currentPage) {
+      this.dataListObj.current_page = currentPage;
+
+      this.getAndSetCaseListByID(this.lastGetCaseListID);
+    },
+  },
 };
 </script>
 
@@ -91,7 +199,7 @@ export default {
   }
 }
 
-.pagination-modules{
-    padding-bottom: 3.8rem;
+.pagination-modules {
+  padding-bottom: 3.8rem;
 }
 </style>
